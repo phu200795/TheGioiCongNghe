@@ -1,0 +1,157 @@
+﻿
+@model TheGioiCongNghe.Models.Product_manager
+
+@{
+    ViewBag.Title = "DetailProductManager";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="section">
+    <div class="col-md-12 ors_main_body">
+        <div class="container">
+            <div class="col-md-9">
+                <div class="col-md-5">
+                    <div style="height:300px;width:300px;" class="zoomWrapper">
+                        <img class="elevate img-responsive" src="@Url.Content(Model.Product_image)">
+                    </div>
+                </div>
+                <div class="col-md-7 ors_prd_main_info" id="layout_79">
+                    <link rel="stylesheet" type="text/css" href="https://cdn.eraweb.net/fonts/icomoon.css">
+                    <meta type="description" content="">
+                    <h3>@Model.Title</h3>
+                    <span class="ors_rating_result" style="width:0px"></span>
+
+
+                    <div class="product-detai-description">@Model.Product_Description</div>
+                    <div class="product-detai-discount" data-price="19000000">
+                        @Model.Product_Price
+                        <sup>đ</sup>
+                    </div>
+                    <table></table>
+                    <style>
+                        #btn-cong {
+                            color: red;
+                            font-size: 30px;
+                        }
+
+                        #btn-tru {
+                            color: blue;
+                            font-size: 30px;
+                        }
+
+                        #btn-sale {
+                            width: 220px;
+                            margin-right: 10px;
+                        }
+
+                        #qty {
+                            width: 50px;
+                            text-align: center;
+                        }
+
+                        .btn-con {
+                            background-image: none;
+                            outline: 0;
+                            -webkit-box-shadow: inset 0 0 0 rgba(0,0,0,0);
+                            box-shadow: inset 0 0 0 rgba(0,0,0,0);
+                        }
+
+                        .icon-minus-circle2:before,
+                        .icon-minus-circle2:after,
+                        .icon-plus-circle2:before,
+                        .icon-plus-circle2:after {
+                            font-family: "icomoon" !important;
+                        }
+                    </style>
+                    <a href="javascript:qty_minus()">
+                        <b class="icon-minus-circle2 btn-con" id="btn-tru"></b>
+                    </a>
+                    <input min="1" class="product-qty" id="qty" name="txt" alt="qty" value="1" onchange="changes(this.value)">
+                    <a href="javascript:qty_plus()">
+                        <b class="icon-plus-circle2 btn-con" id="btn-cong"></b>
+                    </a>
+                    <br>
+                    <button class="btn btn-primary" id="btn-sale" onclick="AddToCart('@Model.Id')">Add To Cart</button>
+                    <button class="btn btn-primary">Love</button>
+
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active">
+                            <a href="#specification" aria-controls="profile" role="tab" data-toggle="tab">
+                                <b>Specifications</b>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th>Operating System:</th>
+                                    <td>Mac OS X</td>
+                                </tr>
+                                <tr>
+                                    <th>Display Size:</th>
+                                    <td>13.0 inches</td>
+                                </tr>
+                                <tr>
+                                    <th>Computer Memory Size:</th>
+                                    <td>8.0 GB</td>
+                                </tr>
+                                <tr>
+                                    <th>Hard Disk Size:</th>
+                                    <td>128 GB</td>
+                                </tr>
+                                <tr>
+                                    <th>Cpu Model Family:</th>
+                                    <td>core i5</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <script>
+        function AddToCart(Id) {
+            $.ajax({
+                type: 'POST',
+                url: '/Cart/AddToCart',
+                data: { id: Id },
+                success: function (data) {
+                    $("#Cart_Amount").html(data.ItemAmount);
+                }
+            });
+        }
+        function changes(value) {
+
+            var patten = /^([a-z]|[A-Z])+/g;
+            var val = value.match(patten);
+            if (value == null || value == "" || value <= 0 || value == val) {
+                $("#qty").val(1);
+            }
+
+        }
+        function qty_minus() {
+            var qty = parseInt($("#qty").val());
+            if (qty > 1) {
+                $("#qty").val(qty - 1);
+
+            }
+        }
+        function qty_plus(id) {
+            var qty = parseInt($("#qty").val());
+            $("#qty").val(qty + 1);
+
+        }
+
+
+    </script>
+}

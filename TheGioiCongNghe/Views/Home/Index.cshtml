@@ -1,0 +1,165 @@
+﻿@model TheGioiCongNghe.ViewModels.ProductViewModels
+@{
+    ViewBag.Title = "Home Page";
+}
+<div class="container">
+    <h2 class="text-center">Thỏa Sức Lựa Chọn Sản Phẩm Tại TEEMMO</h2>
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="item active">
+                <img src="~/Content/images/top_banner.jpg" alt="Thiết kế 1">
+                <div class="carousel-caption">
+                    <h1>Thiết độc đáo</h1>
+                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p>
+                </div>
+            </div>
+            <div class="item">
+                <img src="~/Content/images/top_banner (1).jpg" alt="Thiết kế 2">
+                <div class="carousel-caption">
+                    <h1>Tính năng hấp dẫn</h1>
+                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p>
+                </div>
+            </div>
+            <div class="item">
+                <img src="~/Content/images/top_banner2.jpg" alt="Thiết kế 3">
+                <div class="carousel-caption">
+                    <h1>Giá siêu hot</h1>
+                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p>
+                </div>
+            </div>
+        </div> <a class="left carousel-control" href="http://hocwebgiare.com/#myCarousel" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left"></span> </a> <a class="right carousel-control" href="http://hocwebgiare.com/#myCarousel" data-slide="next"> <span class="glyphicon glyphicon-chevron-right"></span> </a>
+    </div>
+</div>
+<div class="section" style="
+    height: 1000px;
+">
+    <div class="col-md-12">
+        <div class="col-md-3">
+            <div class="col-md-12">
+                <div class="row ors_product_category">
+                    <div class="col-md-12 addon_title">
+                        <div class="row">Product Category</div>
+                    </div>
+                    <div class="prd_cat">
+                        <ul>
+                            @foreach (var item in Model.Product_Categorys.Where(c=>c.Parent_Id==0))
+                            {
+                                
+                                <li class="has_sub">
+                                    <a>@item.Title</a>
+                                    <div class="prd_sub_cat">
+                                       
+                                            <ul class="sub_lv1">
+                                              @foreach (var items in Model.Product_Categorys)
+                                              {
+                                                  if (item.Id == items.Parent_Id)
+                                                  {
+                                                <li><a>@items.Title</a></li>
+                                                  }
+                                              }
+
+                                            </ul>
+                                        
+                                    </div>
+                                </li>
+
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+@foreach (var items in Model.Product_Categorys.Where(c => c.Parent_Id == 0))
+{
+            <div class="row ors_product_sp">
+                <section id="product_list">
+
+                    <div class="col-md-12 addon_title">
+                        <div class="row">@items.Title</div>
+                    </div>
+                    <div class="ors_product_list ">
+                        <div class="list_row">
+                            @foreach (var item in @ViewBag.Product_Managers)
+                            {
+                                if (item.Cat_Id == items.Id )
+                                {
+                                <div class="col-md-3">
+                                    <div class="item">
+                                        <a href="/Admin/DetailProductManager/@item.Id"><img class="img-responsive height" src="@Url.Content(@item.Product_image)" /></a>
+                                        <h4 class="product-title">@item.Title</h4>
+                                        <span>@item.Product_Price<sup>đ</sup></span>
+                                        <p>
+                                            <button type="submit" class="btn btn-danger" onclick="AddToCart('@item.Id')" value="Giỏ Hàng">Thêm Giỏ Hàng</button>
+                                        </p>
+                                    </div>
+                                </div>
+                                }
+                            }
+
+                        </div>
+                    </div>
+
+                </section>
+            </div>
+}
+        </div>
+        
+    </div>
+</div>
+<div class="section">
+    <div class="col-md-12">
+        <div class="container">
+            <div class="row ors_title_our_blogs ors_title_main">
+                <div class="item-article-category">
+                    <div class="col-md-12 addon_title">
+                        <div class="row">Tin Tức</div>
+                    </div>
+                </div>
+                <div class="article_list">
+                    <div class="list-row">
+                        @foreach (var item in Model.Article_Managers)
+                        {
+                        <div class="col-md-4">
+                            <article class="article_item">
+                                <a href="/Admin/DetailArticleManager/@item.Id"><img class="img-responsive" src="@Url.Content(item.Article_image)" /></a>
+                                <h3><a href="/Admin/DetailArticleManager/@item.Id">@item.Title</a></h3>
+                                <p>@item.Article_Alias</p>
+                            </article>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+    {
+        <script>
+            function AddToCart(Id) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Cart/AddToCart',
+                    data: { id: Id },
+                    success: function (data) {
+                        $("#Cart_Amount").html(data.ItemAmount);
+                    }
+                });
+            }
+            
+                $('#myCarousel').carousel({
+                    interval: 4000,
+                    autoplay: 5000
+});
+
+        </script>
+        }
+
