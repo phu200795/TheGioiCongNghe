@@ -1,1 +1,76 @@
-﻿
+﻿@model IEnumerable<TheGioiCongNghe.Models.Product_manager>
+
+@{
+    ViewBag.Title = "ListProductManager";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="h2">
+    <h2>Danh Mục Sản Phẩm</h2>
+</div>
+
+<p>
+    @Html.ActionLink("Create New", "CreateProductManager")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            STT
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Product_Alias)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cat_Id)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.DateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Product_Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product_Alias)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cat_Id)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.DateTime)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Product_Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditProductManager", new { id = item.Id }) |
+                @Html.ActionLink("Details", "DetailProductManager", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "DeleteProductManager", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>

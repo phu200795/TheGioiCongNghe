@@ -1,1 +1,49 @@
-﻿
+﻿@model IEnumerable<TheGioiCongNghe.Models.Product_category>
+
+@{
+    ViewBag.Title = "ListProtductModel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="h2">
+    <h2>Danh Mục Loại Sản Phẩm</h2>
+</div>
+
+<p>
+    @Html.ActionLink("Create New", "CreateProductCategory")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            STT
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Parent_Id)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Parent_Id)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditProductCategory", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "DeleteProductCategory", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>

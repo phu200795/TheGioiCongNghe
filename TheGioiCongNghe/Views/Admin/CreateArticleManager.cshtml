@@ -1,1 +1,91 @@
-﻿
+﻿@model TheGioiCongNghe.Models.Article_manager
+
+@{
+    ViewBag.Title = "CreateArticleManager";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>CreateArticleManager</h2>
+
+@using (Html.BeginForm("CreateArticleManager", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Article_manager</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Article_Alias, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Article_Alias, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Article_Alias, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Cat_Id, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Cat_Id, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Cat_Id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Article_Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Article_Description, new { @id = "ckeContent" })
+                <script type="text/javascript">
+
+                    CKEDITOR.replace("ckeContent");
+
+                </script>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DateTime, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DateTime, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                @Html.ValidationMessageFor(model => model.DateTime, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <img src="~/Content/images/noimage.png" height="300" width="300" id="xemTruoc" />
+                <input type="file" name="chonHinh" accept="image/jpeg, image/png, image/jpg" width="300" height="300" onchange="ChonHinh(this, document.getElementById('xemTruoc'))" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+@section Scripts
+{
+    <script>
+        function ChonHinh(chonHinh, xemTruoc) {
+            if (chonHinh.files && chonHinh.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $(xemTruoc).attr('src', e.target.result);
+                }
+                reader.readAsDataURL(chonHinh.files[0]);
+            }
+        }
+    </script>
+}
